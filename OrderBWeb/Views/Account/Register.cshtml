@@ -1,0 +1,90 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "註冊";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+</head>
+<body>
+    <div style='margin-top:15px'>
+        <form>
+            <div class="form-group">
+                <label for="Username">使用者名稱</label>
+                <input type="text" class="form-control" id="Username">
+            </div>
+            <div class="form-group">
+                <label for="account">帳號</label>
+                <input type="text" class="form-control" id="account" placeholder="Enter account">
+            </div>
+            <div class="form-group">
+                <label for="password">密碼</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button id="Confirm" type="submit" class="btn btn-primary">註冊</button>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $("#Confirm").click(function () {
+            var Username = $('#Username').val();
+            var account = $('#account').val();
+            var password = $('#password').val();
+            var Usernameleng = Username.length;
+            var accountleng = account.length;
+            var passwordleng = password.length;
+
+            if (Usernameleng > 10) {
+                alert("使用者名稱不可超過10個字");
+                return false;
+            }
+            else if (Usernameleng == 0){
+                alert("使用者名稱尚未輸入");
+                return false;
+            }
+
+            if (accountleng > 10) {
+                alert("帳號不可超過10個字");
+                return false;
+            }
+            else if (accountleng == 0) {
+                alert("帳號尚未輸入");
+                return false;
+            }
+
+            if (passwordleng > 10) {
+                alert("密碼不可超過10個字");
+                return false;
+            }
+            else if (passwordleng == 0) {
+                alert("密碼尚未輸入");
+                return false;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("RegisterSubmit")",
+                data: {
+                    "Username": Username,
+                    "account": account,
+                    "password": password
+                },
+                success: function () {
+                    location.href='@Url.Action("Login")'
+                    alert('success！');
+                },
+                error: function () {
+                    alert("error！");
+                }
+            });
+        });
+    });
+</script>
+

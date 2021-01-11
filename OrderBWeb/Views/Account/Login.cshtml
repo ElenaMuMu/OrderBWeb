@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Login";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    <div  style='margin-top:15px'>
+        <form>
+            <div class="form-group">
+                <label for="account">帳號</label>
+                <input type="text" class="form-control" id="account"  placeholder="Enter account">
+            </div>
+            <div class="form-group">
+                <label for="password">密碼</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">登入</button>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        $("#Confirm").click(function () {
+            var account = $('#account').val();
+            var password = $('#password').val();
+            var accountleng = account.length;
+            var passwordleng = password.length;
+
+            if (accountleng > 10) {
+                alert("帳號不可超過10個字");
+                return false;
+            }
+            else if (accountleng == 0) {
+                alert("帳號尚未輸入");
+                return false;
+            }
+
+            if (passwordleng > 10) {
+                alert("密碼不可超過10個字");
+                return false;
+            }
+            else if (passwordleng == 0) {
+                alert("密碼尚未輸入");
+                return false;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("LoginSubmit")",
+                data: {
+                    "account": account,
+                    "password": password
+                },
+                success: function (data2) {
+                    console.log(data2);
+                    var id = data2.userid;
+                    location.href='@Url.Action("OrderList")'
+                    alert('success！');
+                },
+                error: function () {
+                    alert("error！");
+                }
+            });
+        });
+    });
+</script>

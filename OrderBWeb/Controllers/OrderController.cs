@@ -15,9 +15,9 @@ namespace BookOrderWeb.Controllers
         public string ConnectionString = ConfigurationManager.ConnectionStrings["WebTestconnect"].ConnectionString;
 
         // GET: Order
-        public ActionResult OrderList()
+        public ActionResult OrderList(string userid)
         {
-            string userid = "AAA"; //尚未做登入先預設AAA
+            //string userid = "001"; //尚未做登入先預設AAA
             string sql_text = @"SELECT OrderList.OrderId,OrderList.OrderItem,ItemData.Itemname, 
                                                             OrderList.Price,OrderList.Cost,StatusData.StatusName
                                             FROM OrderList

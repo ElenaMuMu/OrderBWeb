@@ -1,5 +1,6 @@
 ﻿@using System.Data;
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "OrderList";
     DataTable dtOrderList = (DataTable)ViewBag.OrderList;
 }
@@ -49,6 +50,7 @@
         </div>
     </div>
 </body>
+</html>
 <script>
     $(function () {
         $("#Confirm").click(function () {
