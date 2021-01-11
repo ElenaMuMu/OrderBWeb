@@ -1,0 +1,36 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "Detail";
+    DataTable dtItemData = (DataTable)ViewBag.ItemData;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detail</title>
+</head>
+<body>
+    <div style='margin-top:15px'>
+        @{
+            if (dtItemData.Rows.Count > 0)
+            {
+                DataRow drItemData = dtItemData.Rows[0];
+                <ul>
+                    <li><b>Item ID：</b>@drItemData["ItemId"] </li>
+                    <li><b>Itemname：</b>@drItemData["Itemname"]</li>
+                    <li> <b>Kind：</b>@drItemData["kind"]</li>
+                    <li><b>Author：</b> @drItemData["author"]</li>
+                    <li> <b>Price：</b>@drItemData["Price"]</li>
+                    <li> <b>Price：</b>@drItemData["Price"]</li>
+                    <li> <b>Cost：</b>@drItemData["Cost"]</li>
+                </ul>
+            }
+        }
+    </div>
+    <div class="text-left">
+        <button type="submit" class="btn btn-primary" onclick="location.href='@Url.Action("OrderList")'">回上一頁</button>
+    </div>
+</body>
+</html>

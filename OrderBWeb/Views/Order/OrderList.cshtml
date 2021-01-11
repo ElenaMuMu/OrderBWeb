@@ -1,0 +1,77 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "OrderList";
+    DataTable dtOrderList = (DataTable)ViewBag.OrderList;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OrderList</title>
+</head>
+<body>
+    <div>
+        <table class="table" style='margin-top:15px'>
+            <thead class="thead-dark">
+                <tr>
+                    <td align=left></td>
+                    <td align=left><b>Order ID</b></td>
+                    <td align=left><b>Order Item</b></td>
+                    <td align=left><b>Price</b></td>
+                    <td align=left><b>Cost</b></td>
+                    <td align=left><b>Status</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (dtOrderList.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtOrderList.Rows.Count; i++)
+                        {
+                            DataRow drOrderList = dtOrderList.Rows[i];
+                            <tr>
+                                <td> <input type="checkbox" id="chk" name="chk" value=@drOrderList["OrderId"]></td>
+                                <td>@drOrderList["OrderId"] </td>
+                                <td>@Html.ActionLink(drOrderList["Itemname"].ToString(), "Detail", new { OrderItem = drOrderList["OrderItem"] })</td>
+                                <td> @drOrderList["Price"]</td>
+                                <td> @drOrderList["Cost"]</td>
+                                <td> @drOrderList["StatusName"]</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="text-left">
+            <button id="Confirm" type="submit" class="btn btn-primary">Confirm</button>
+        </div>
+    </div>
+</body>
+<script>
+    $(function () {
+        $("#Confirm").click(function () {
+            var OrderId = [];
+            $("input[name='chk']:checked").each(function () {
+                OrderId.push(this.value);
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("Confirm")",
+                data: {
+                    'OrderId[]': OrderId,
+                },
+                success: function () {
+                    location.href='@Url.Action("OrderList")'
+                    alert('success！');
+                },
+                error: function () {
+                    alert("error！");
+                }
+            });
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,48 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "ItemData";
+    DataTable dtItemData = (DataTable)ViewBag.ItemData;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ItemData</title>
+</head>
+<body>
+    <div>
+        <table class="table" style='margin-top:15px'>
+            <thead class="thead-dark">
+                <tr>
+                    <td align=left><b>ItemId</b></td>
+                    <td align=left><b>Itemname</b></td>
+                    <td align=left><b>kind</b></td>
+                    <td align=left><b>author</b></td>
+                    <td align=left><b>Price</b></td>
+                    <td align=left><b>Cost</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (dtItemData.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < dtItemData.Rows.Count; i++)
+                        {
+                            DataRow drItemData = dtItemData.Rows[i];
+                            <tr>
+                                <td>@drItemData["ItemId"] </td>
+                                <td> @drItemData["Itemname"]</td>
+                                <td> @drItemData["kind"]</td>
+                                <td> @drItemData["author"]</td>
+                                <td> @drItemData["Price"]</td>
+                                <td> @drItemData["Cost"]</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
