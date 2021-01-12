@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using OrderBWeb.ActionFilter;
 
 namespace BookOrderWeb.Controllers
 {
@@ -15,9 +16,16 @@ namespace BookOrderWeb.Controllers
         public string ConnectionString = ConfigurationManager.ConnectionStrings["WebTestconnect"].ConnectionString;
 
         // GET: Order
-        public ActionResult OrderList(string userid)
+        [OrderBWeb.ActionFilter.LoginStatusCheck]
+        public ActionResult OrderList()
         {
-            //string userid = "001"; //尚未做登入先預設AAA
+            var id = Session["UserId"];
+            if (id == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            string userid = Session["UserId"].ToString();
+            //userid = "001"; //尚未做登入先預設001
             string sql_text = @"SELECT OrderList.OrderId,OrderList.OrderItem,ItemData.Itemname, 
                                                             OrderList.Price,OrderList.Cost,StatusData.StatusName
                                             FROM OrderList
@@ -63,6 +71,7 @@ namespace BookOrderWeb.Controllers
             return View();
         }
 
+        [HttpPost]
         public string Confirm(string[] OrderId)
         {
             if (!IsNullOrEmpty(OrderId))
@@ -86,8 +95,13 @@ namespace BookOrderWeb.Controllers
                         }
                     }
                 }
+                return "ok";
             }
-            return "ok";
+            else
+            {
+                Response.StatusCode = 400;
+                return "";
+            }
         }
 
         public ActionResult ItemData()

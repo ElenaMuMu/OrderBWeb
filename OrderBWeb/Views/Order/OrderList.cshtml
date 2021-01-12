@@ -42,6 +42,13 @@
                             </tr>
                         }
                     }
+                    else
+                    {
+                            <tr>
+                                <td></td>
+                                <td>查無資料</td>
+                            </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -53,6 +60,17 @@
 </html>
 <script>
     $(function () {
+        $("[type='checkbox']").click(function () {
+            var a = $(this).parent().parent();
+            var cells = a.find("td");
+            var StatusName = cells[5].innerText;
+            if (StatusName == "To Be Shipped")
+            {
+                $("[type='checkbox']").removeAttr("checked");
+                alert("狀態為 To be shipped, 不可以再次勾選。");
+            }
+        });
+
         $("#Confirm").click(function () {
             var OrderId = [];
             $("input[name='chk']:checked").each(function () {
@@ -76,4 +94,4 @@
         });
     });
 </script>
-</html>
+

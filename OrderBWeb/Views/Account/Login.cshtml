@@ -1,6 +1,6 @@
 ﻿
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Login";
 }
 
@@ -10,20 +10,31 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
+    <meta charset="utf-8" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
 </head>
 <body>
-    <div  style='margin-top:15px'>
-        <form>
+    <div class="container body-content" style='margin-top:15px'>
+        <h4>登入後才可查詢資料</h4>
+        <hr />
             <div class="form-group">
                 <label for="account">帳號</label>
-                <input type="text" class="form-control" id="account"  placeholder="Enter account">
+                <input type="text" class="form-control" id="account" placeholder="Enter account">
             </div>
             <div class="form-group">
                 <label for="password">密碼</label>
                 <input type="password" class="form-control" id="password" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-primary">登入</button>
-        </form>
+            <button id="Confirm" class="btn btn-primary">登入</button>
+        <div style='margin-top:15px'>
+            <p>
+                @Html.ActionLink("註冊為新使用者", "Register")
+            </p>
+        </div>
     </div>
 </body>
 </html>
@@ -53,23 +64,8 @@
                 return false;
             }
 
-            $.ajax({
-                type: 'POST',
-                url: "@Url.Action("LoginSubmit")",
-                data: {
-                    "account": account,
-                    "password": password
-                },
-                success: function (data2) {
-                    console.log(data2);
-                    var id = data2.userid;
-                    location.href='@Url.Action("OrderList")'
-                    alert('success！');
-                },
-                error: function () {
-                    alert("error！");
-                }
-            });
+            location.href = '@Url.Action("LoginSubmit")' + '?account=' + account + '&password=' + password ;
+
         });
     });
 </script>

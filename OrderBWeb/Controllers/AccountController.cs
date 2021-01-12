@@ -8,7 +8,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-
 namespace OrderBWeb.Controllers
 {
     public class AccountController : Controller
@@ -23,6 +22,11 @@ namespace OrderBWeb.Controllers
         public ActionResult Register()
         {
             return View();
+        }
+        public ActionResult Logout()
+        {
+            Session["UserId"] = null;
+            return RedirectToAction("Login");
         }
 
         public string RegisterSubmit(string Username,string account,string password)
@@ -79,10 +83,8 @@ namespace OrderBWeb.Controllers
             return userid;
         }
 
-
-        public JsonResult LoginSubmit(string account, string password)
+        public ActionResult LoginSubmit(string account, string password)
         {
-            string userid = "";
             string sql_text = @"SELECT UserData.UserId
                                             FROM UserData
                                             WHERE account =@account AND password=@password
@@ -102,11 +104,14 @@ namespace OrderBWeb.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     DataRow dr = dt.Rows[0];
-                    userid = dr["UserId"].ToString();
+                    Session["UserId"] = dr["UserId"].ToString();
+                    return RedirectToAction("OrderList", "Order");
+                }
+                else
+                {
+                    return RedirectToAction("Login");
                 }
             }
-
-            return Json(new { success = true, userid }, JsonRequestBehavior.AllowGet);
         }
     }
 }
